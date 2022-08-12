@@ -8,7 +8,25 @@
 import XCTest
 @testable import Feed
 
+class RemoteFeedLoader {
+    
+}
+
+class HTTPClient {
+    var requestedURL: URL?
+}
+
 class FeedTests: XCTestCase {
+    
+    func test_init_doseNotRequestDataFromURL() {
+        let client = HTTPClient()
+        _ = RemoteFeedLoader()
+        // when feedLoader call load(), it requests something from the server
+        // when feedLoader call load(), it invokes connection in its client
+        // connection is made for a specific URL
+        
+        XCTAssertNil(client.requestedURL)
+    }
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
