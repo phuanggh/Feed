@@ -9,23 +9,32 @@ import XCTest
 @testable import Feed
 
 class RemoteFeedLoader {
-    func load() {
-        HTTPClient.shared.get(from: URL(string: "a-requested-url")!)
-    }
-}
-
-class HTTPClient {
-    static var shared = HTTPClient()
+    let client: HTTPClient
     
-    func get(from url: URL) {
+    init(client: HTTPClient) {
+        self.client = client
+    }
+    
+    func load() {
+        client.get(from: URL(string: "a-requested-url")!)
+        // problems of using a shared instance ->
+            // 1. mixing the responsibility of invoking a method in an object
+            // 2. the reponsibility of locating this object. I know how to locate this object in memory, I know what instance I'm using, but I don't need to know them
+        // if we inject our client, we have more control over our code
         
     }
 }
 
+protocol HTTPClient {
+    func get(from url: URL)
+}
+
+// there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
+// to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
 class HTTPClientSpy: HTTPClient {
     var requestedURL: URL?
     
-    override func get(from url: URL) {
+    func get(from url: URL) {
         requestedURL = url
     }
 }
@@ -34,8 +43,8 @@ class FeedTests: XCTestCase {
     
     func test_init_doseNotRequestDataFromURL() {
         let client = HTTPClientSpy()
-        HTTPClient.shared = client
-        _ = RemoteFeedLoader()
+        
+        _ = RemoteFeedLoader(client: client)
         // when feedLoader call load(), it requests something from the server
         // when feedLoader call load(), it invokes connection in its client
         // connection is made for a specific URL
@@ -45,8 +54,8 @@ class FeedTests: XCTestCase {
     
     func test_load_requestDataFromURL() {
         let client = HTTPClientSpy()
-        HTTPClient.shared = client
-        let sut = RemoteFeedLoader()
+        
+        let sut = RemoteFeedLoader(client: client)
         
         sut.load()
         // when it loads, we have to have request a URL through the client
