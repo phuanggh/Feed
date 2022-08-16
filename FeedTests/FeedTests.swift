@@ -32,23 +32,13 @@ class RemoteFeedLoader {
 protocol HTTPClient {
     func get(from url: URL)
 }
-
-// there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
-// to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
-class HTTPClientSpy: HTTPClient {
-    var requestedURL: URL?
-    
-    func get(from url: URL) {
-        requestedURL = url
-    }
-}
-
+ 
 class FeedTests: XCTestCase {
     
     func test_init_doseNotRequestDataFromURL() {
         let client = HTTPClientSpy()
-        let url = URL(string: "test.injected.url")!
-        _ = RemoteFeedLoader(url: url, client: client)
+        
+        _ = makeSUT()
         // when feedLoader call load(), it requests something from the server
         // when feedLoader call load(), it invokes connection in its client
         // connection is made for a specific URL
@@ -57,9 +47,8 @@ class FeedTests: XCTestCase {
     }
     
     func test_load_requestDataFromURL() {
-        let client = HTTPClientSpy()
         let url = URL(string: "test.injected.url")!
-        let sut = RemoteFeedLoader(url: url, client: client)
+        let (sut, client) = makeSUT(url: url)
         
         sut.load()
         // when it loads, we have to have request a URL through the client
@@ -74,7 +63,26 @@ class FeedTests: XCTestCase {
         
         XCTAssertEqual(client.requestedURL, url)
     }
+    
+    // MARK: - Helpers
+    private func makeSUT(url: URL = URL(string: "test.injected.url")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
+        let client = HTTPClientSpy()
+        let sut = RemoteFeedLoader(url: url, client: client)
+        
+        return (sut, client)
+    }
 
+    // there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
+    // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
+    class HTTPClientSpy: HTTPClient {
+        var requestedURL: URL?
+        
+        func get(from url: URL) {
+            requestedURL = url
+        }
+    }
+    
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
