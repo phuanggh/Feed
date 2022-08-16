@@ -10,18 +10,22 @@ import XCTest
 
 class RemoteFeedLoader {
     let client: HTTPClient
+    let url: URL
     
-    init(client: HTTPClient) {
+    init(url: URL, client: HTTPClient) {
         self.client = client
+        self.url = url
     }
     
     func load() {
-        client.get(from: URL(string: "a-requested-url")!)
+        client.get(from: url)
         // problems of using a shared instance ->
             // 1. mixing the responsibility of invoking a method in an object
             // 2. the reponsibility of locating this object. I know how to locate this object in memory, I know what instance I'm using, but I don't need to know them
         // if we inject our client, we have more control over our code
         
+        // is it the responsibility of this FeedLoader to know which URL it is getting data from, or it is given this URL?
+        // -> we don't know, and we don't care about it. let's why it can be injected
     }
 }
 
@@ -43,8 +47,8 @@ class FeedTests: XCTestCase {
     
     func test_init_doseNotRequestDataFromURL() {
         let client = HTTPClientSpy()
-        
-        _ = RemoteFeedLoader(client: client)
+        let url = URL(string: "test.injected.url")!
+        _ = RemoteFeedLoader(url: url, client: client)
         // when feedLoader call load(), it requests something from the server
         // when feedLoader call load(), it invokes connection in its client
         // connection is made for a specific URL
@@ -54,17 +58,21 @@ class FeedTests: XCTestCase {
     
     func test_load_requestDataFromURL() {
         let client = HTTPClientSpy()
-        
-        let sut = RemoteFeedLoader(client: client)
+        let url = URL(string: "test.injected.url")!
+        let sut = RemoteFeedLoader(url: url, client: client)
         
         sut.load()
         // when it loads, we have to have request a URL through the client
         // how can RemoteFeedLoader invokes a mothod in the client? -> dependency injection, inject a client to RemoteFeedLoader
-        // constructor injection
-        // property injection
-        // method injection
+            // constructor injection
+            // property injection
+            // method injection
         
-        XCTAssertNotNil(client.requestedURL)
+        // URL is a detail of the implementation of FeedLoader, so it should not be in public interface (should not be defined in paramaters)
+        // FeedLoader defines load(), but it can load from a cache, it can load from multiple locations
+        // it is client's responsibility to know about URLs
+        
+        XCTAssertEqual(client.requestedURL, url)
     }
 
     override func setUpWithError() throws {
