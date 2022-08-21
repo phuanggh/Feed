@@ -62,6 +62,7 @@ class FeedTests: XCTestCase {
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     class HTTPClientSpy: HTTPClient {
         var requestedURLs: [URL] = []
+        // when testing objects collaborating, asserting the values passed is not enough. we also need to ask "how many times was the method invoked?"
         
         func get(from url: URL) {
             requestedURLs.append(url)
