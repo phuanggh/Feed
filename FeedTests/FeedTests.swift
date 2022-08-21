@@ -6,7 +6,8 @@
 //
 
 import XCTest
-@testable import Feed
+import Feed
+// @testable vs import
 
 class FeedTests: XCTestCase {
     
@@ -39,6 +40,16 @@ class FeedTests: XCTestCase {
         XCTAssertEqual(client.requestedURL, url)
     }
     
+    func test_loadTwice_requestDataFromURL() {
+        let url = URL(string: "test.injected.url")!
+        let (sut, client) = makeSUT(url: url)
+        
+        sut.load()
+        sut.load()
+        
+        XCTAssertEqual(client.requestedURLs, [url, url])
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "test.injected.url")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -51,9 +62,11 @@ class FeedTests: XCTestCase {
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     class HTTPClientSpy: HTTPClient {
         var requestedURL: URL?
+        var requestedURLs: [URL] = []
         
         func get(from url: URL) {
             requestedURL = url
+            requestedURLs.append(url)
         }
     }
     

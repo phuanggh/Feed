@@ -7,18 +7,18 @@
 
 import Foundation
 
-class RemoteFeedLoader {
-    let client: HTTPClient
-    let url: URL
+public final class RemoteFeedLoader {
+    private let client: HTTPClient
+    private let url: URL
     
     // the RemoteFeedLoader does not need to locate or instantiate the HTTPClient instance, so we make our code more modular by injecting a HTTPClient as a dependency
     // When you use singlnton for convenience of finding an instance of a type, it is often considered n anti-pattern
-    init(url: URL, client: HTTPClient) {
+    public init(url: URL, client: HTTPClient) {
         self.client = client
         self.url = url
     }
     
-    func load() {
+    public func load() {
         client.get(from: url)
         // problems of using a shared instance ->
             // 1. mixing the responsibility of invoking a method in an object
@@ -31,6 +31,6 @@ class RemoteFeedLoader {
     }
 }
 
-protocol HTTPClient {
+public protocol HTTPClient {
     func get(from url: URL)
 }
