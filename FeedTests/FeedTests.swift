@@ -19,7 +19,7 @@ class FeedTests: XCTestCase {
         // when feedLoader call load(), it invokes connection in its client
         // connection is made for a specific URL
         
-        XCTAssertNil(client.requestedURL)
+        XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func test_load_requestDataFromURL() {
@@ -37,7 +37,7 @@ class FeedTests: XCTestCase {
         // FeedLoader defines load(), but it can load from a cache, it can load from multiple locations
         // it is client's responsibility to know about URLs
         
-        XCTAssertEqual(client.requestedURL, url)
+        XCTAssertEqual(client.requestedURLs, [url])
     }
     
     func test_loadTwice_requestDataFromURL() {
@@ -61,11 +61,9 @@ class FeedTests: XCTestCase {
     // there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     class HTTPClientSpy: HTTPClient {
-        var requestedURL: URL?
         var requestedURLs: [URL] = []
         
         func get(from url: URL) {
-            requestedURL = url
             requestedURLs.append(url)
         }
     }
