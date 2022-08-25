@@ -11,6 +11,10 @@ public final class RemoteFeedLoader {
     private let client: HTTPClient
     private let url: URL
     
+    public enum Error: Swift.Error {
+        case connectivity
+    }
+    
     // the RemoteFeedLoader does not need to locate or instantiate the HTTPClient instance, so we make our code more modular by injecting a HTTPClient as a dependency
     // When you use singlnton for convenience of finding an instance of a type, it is often considered n anti-pattern
     public init(url: URL, client: HTTPClient) {
@@ -18,8 +22,10 @@ public final class RemoteFeedLoader {
         self.url = url
     }
     
-    public func load() {
-        client.get(from: url)
+    public func load(completion: @escaping (Error) -> () = {_ in}) {
+        client.get(from: url) { error in
+            completion(.connectivity)
+        }
         // problems of using a shared instance ->
             // 1. mixing the responsibility of invoking a method in an object
             // 2. the reponsibility of locating this object. I know how to locate this object in memory, I know what instance I'm using, but I don't need to know them
@@ -32,5 +38,5 @@ public final class RemoteFeedLoader {
 }
 
 public protocol HTTPClient {
-    func get(from url: URL)
+    func get(from url: URL, completion: @escaping(Error) -> ())
 }

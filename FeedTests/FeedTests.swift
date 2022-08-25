@@ -50,6 +50,17 @@ class FeedTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
     
+    func test_load_deliversErrorOnClientError() {
+        let (sut, client) = makeSUT()
+        client.error = NSError(domain: "test", code: 0, userInfo: nil)
+        var capturedError: RemoteFeedLoader.Error?
+        sut.load { error in
+            capturedError = error
+        }
+        
+        XCTAssertEqual(capturedError, .connectivity)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "test.injected.url")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -62,9 +73,13 @@ class FeedTests: XCTestCase {
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     class HTTPClientSpy: HTTPClient {
         var requestedURLs: [URL] = []
+        var error: Error?
         // when testing objects collaborating, asserting the values passed is not enough. we also need to ask "how many times was the method invoked?"
         
-        func get(from url: URL) {
+        func get(from url: URL, completion: (Error) -> ()) {
+            if let error = error {
+                completion(error)
+            }
             requestedURLs.append(url)
         }
     }
