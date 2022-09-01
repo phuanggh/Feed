@@ -62,7 +62,7 @@ class FeedTests: XCTestCase {
         let clientError = NSError(domain: "test", code: 0, userInfo: nil)
         
         // Capturing calue
-        client.completions[0](clientError)
+        client.complete(with: clientError)
         
         XCTAssertEqual(capturedError, [.connectivity])
     }
@@ -86,6 +86,10 @@ class FeedTests: XCTestCase {
         func get(from url: URL, completion: @escaping (Error) -> ()) {
             completions.append(completion)
             requestedURLs.append(url)
+        }
+        
+        func complete(with error: Error, at index: Int = 0) {
+            completions[index](error)
         }
     }
     
