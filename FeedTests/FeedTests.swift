@@ -61,7 +61,7 @@ class FeedTests: XCTestCase {
         }
         let clientError = NSError(domain: "test", code: 0, userInfo: nil)
         
-        // Capturing calue
+        // Capturing value
         client.complete(with: clientError)
         
         XCTAssertEqual(capturedError, [.connectivity])
@@ -78,18 +78,21 @@ class FeedTests: XCTestCase {
     // there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     class HTTPClientSpy: HTTPClient {
-        var requestedURLs: [URL] = []
+        var requestedURLs: [URL] {
+            messages.map {
+                $0.url
+            }
+        }
 //        var error: Error?
         var completions = [(Error) -> ()]()
         // when testing objects collaborating, asserting the values passed is not enough. we also need to ask "how many times was the method invoked?"
-        
+        private var messages = [(url: URL, completion: (Error) -> ())]()
         func get(from url: URL, completion: @escaping (Error) -> ()) {
-            completions.append(completion)
-            requestedURLs.append(url)
+            messages.append((url, completion))
         }
         
         func complete(with error: Error, at index: Int = 0) {
-            completions[index](error)
+            messages[index].completion(error)
         }
     }
     
