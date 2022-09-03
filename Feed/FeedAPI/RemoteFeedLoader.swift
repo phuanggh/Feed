@@ -13,6 +13,7 @@ public final class RemoteFeedLoader {
     
     public enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
     
     // the RemoteFeedLoader does not need to locate or instantiate the HTTPClient instance, so we make our code more modular by injecting a HTTPClient as a dependency
@@ -23,8 +24,12 @@ public final class RemoteFeedLoader {
     }
     
     public func load(completion: @escaping (Error) -> ()) {
-        client.get(from: url) { error in
-            completion(.connectivity)
+        client.get(from: url) { error, response in
+            if response != nil {
+                completion(.invalidData)
+            } else {
+                completion(.connectivity)
+            }
         }
         // problems of using a shared instance ->
             // 1. mixing the responsibility of invoking a method in an object
@@ -38,5 +43,5 @@ public final class RemoteFeedLoader {
 }
 
 public protocol HTTPClient {
-    func get(from url: URL, completion: @escaping(Error) -> ())
+    func get(from url: URL, completion: @escaping(Error?, HTTPURLResponse?) -> ())
 }
