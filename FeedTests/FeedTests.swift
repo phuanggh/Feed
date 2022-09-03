@@ -26,7 +26,7 @@ class FeedTests: XCTestCase {
         let url = URL(string: "test.injected.url")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load()
+        sut.load {_ in}
         // when it loads, we have to have request a URL through the client
         // how can RemoteFeedLoader invokes a mothod in the client? -> dependency injection, inject a client to RemoteFeedLoader
             // constructor injection
@@ -44,8 +44,8 @@ class FeedTests: XCTestCase {
         let url = URL(string: "test.injected.url")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load()
-        sut.load()
+        sut.load {_ in}
+        sut.load {_ in}
         
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
