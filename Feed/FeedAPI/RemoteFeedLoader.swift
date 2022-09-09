@@ -21,6 +21,11 @@ public final class RemoteFeedLoader {
         case invalidData
     }
     
+    public enum Result: Equatable {
+        case success([FeedItem])
+        case failure(Error)
+    }
+    
     // the RemoteFeedLoader does not need to locate or instantiate the HTTPClient instance, so we make our code more modular by injecting a HTTPClient as a dependency
     // When you use singlnton for convenience of finding an instance of a type, it is often considered n anti-pattern
     public init(url: URL, client: HTTPClient) {
@@ -28,13 +33,13 @@ public final class RemoteFeedLoader {
         self.url = url
     }
     
-    public func load(completion: @escaping (Error) -> ()) {
+    public func load(completion: @escaping (Result) -> ()) {
         client.get(from: url) { result in
             switch result {
             case .failure:
-                completion(.connectivity)
+                completion(.failure(.connectivity))
             case .success:
-                completion(.invalidData)
+                completion(.failure(.invalidData))
             }
         }
         // problems of using a shared instance ->

@@ -61,8 +61,6 @@ class FeedTests: XCTestCase {
     func test_load_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
         
-        
-        
         let samples = [199, 201, 300, 400, 500]
         samples.enumerated().forEach { index, code in
             expect(sut, toCompleteWithError: .invalidData) {
@@ -80,6 +78,11 @@ class FeedTests: XCTestCase {
         }
     }
     
+//    func test_load_deliversNoItemOn200HTTPResponseWithEmptyJSONList() {
+//        let (sut, client) = makeSUT()
+//        var capture
+//    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "test.injected.url")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -92,14 +95,14 @@ class FeedTests: XCTestCase {
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     
     private func expect(_ sut: RemoteFeedLoader, toCompleteWithError error: RemoteFeedLoader.Error, with action: () -> (), file: StaticString = #filePath, line: UInt = #line) {
-        var capturedError = [RemoteFeedLoader.Error]()
+        var capturedResults = [RemoteFeedLoader.Result]()
         sut.load {
-            capturedError.append($0)
+            capturedResults.append($0)
         }
         
         action()
         
-        XCTAssertEqual(capturedError, [error], file: file, line: line)
+        XCTAssertEqual(capturedResults, [.failure(error)], file: file, line: line)
     }
     
     
