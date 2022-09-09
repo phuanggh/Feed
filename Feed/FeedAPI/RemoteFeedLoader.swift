@@ -39,9 +39,10 @@ public final class RemoteFeedLoader {
             case .failure:
                 completion(.failure(.connectivity))
             case let .success(data, response):
-                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(root.items.map{ $0.item }))
-                } else {
+                do {
+                    let items = try FeedItemMapper.map(data, response: response)
+                    completion(.success(items))
+                } catch {
                     completion(.failure(.invalidData))
                 }
             }
@@ -57,23 +58,32 @@ public final class RemoteFeedLoader {
     }
 }
 
-public protocol HTTPClient {
-    func get(from url: URL, completion: @escaping(HTTPClientResult) -> ())
+private class FeedItemMapper {
+    private struct Root: Decodable {
+        let items: [Item]
+    }
+    // when decoding received Data, convert it to the local representation Item type,
+    // and then mapping it to FeedItem to be used in other part of the programme.
+    // so the FeedItem has no knowledge of the API
+    private struct Item: Decodable {
+        let id: UUID
+        let description: String?
+        let location: String?
+        let image: URL
+        
+        var item: FeedItem {
+            return FeedItem(id: id, description: description, location: location, imageURL: image)
+        }
+    }
+
+    static func map(_ data: Data, response: HTTPURLResponse) throws -> [FeedItem] {
+        guard response.statusCode == 200 else {
+            throw RemoteFeedLoader.Error.invalidData
+        }
+        return try JSONDecoder().decode(Root.self, from: data).items.map{ $0.item }
+    }
 }
 
-private struct Root: Decodable {
-    let items: [Item]
-}
-// when decoding received Data, convert it to the local representation Item type,
-// and then mapping it to FeedItem to be used in other part of the programme.
-// so the FeedItem has no knowledge of the API
-private struct Item: Decodable {
-    let id: UUID
-    let description: String?
-    let location: String?
-    let image: URL
-    
-    var item: FeedItem {
-        return FeedItem(id: id, description: description, location: location, imageURL: image)
-    }
+public protocol HTTPClient {
+    func get(from url: URL, completion: @escaping(HTTPClientResult) -> ())
 }
