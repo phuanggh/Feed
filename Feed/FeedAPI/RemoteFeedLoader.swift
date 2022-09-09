@@ -39,8 +39,8 @@ public final class RemoteFeedLoader {
             case .failure:
                 completion(.failure(.connectivity))
             case let .success(data, _):
-                if let _ = try? JSONSerialization.jsonObject(with: data) {
-                    completion(.success([]))
+                if let root = try? JSONDecoder().decode(Root.self, from: data) {
+                    completion(.success(root.items))
                 } else {
                     completion(.failure(.invalidData))
                 }
@@ -59,4 +59,8 @@ public final class RemoteFeedLoader {
 
 public protocol HTTPClient {
     func get(from url: URL, completion: @escaping(HTTPClientResult) -> ())
+}
+
+private struct Root: Decodable {
+    let items: [FeedItem]
 }
