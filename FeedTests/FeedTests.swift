@@ -111,11 +111,19 @@ class FeedTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT(url: URL = URL(string: "test.injected.url")!) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "test.injected.url")!, file: StaticString = #file, line: UInt = #line) -> (sut: RemoteFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
-        
+        traceForMemoryLeak(client, file: file, line: line)
+        traceForMemoryLeak(sut, file: file, line: line)
         return (sut, client)
+    }
+    
+    private func traceForMemoryLeak(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
+        // run the assertions after all the tests are passed
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
+        }
     }
 
     // there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
