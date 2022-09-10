@@ -29,7 +29,8 @@ public final class RemoteFeedLoader {
     }
     
     public func load(completion: @escaping (Result) -> ()) {
-        client.get(from: url) { result in
+        client.get(from: url) { [weak self] result in
+            guard self != nil else { return }
             switch result {
             case .failure:
                 completion(.failure(.connectivity))
