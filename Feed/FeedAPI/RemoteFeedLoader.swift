@@ -34,12 +34,7 @@ public final class RemoteFeedLoader {
             case .failure:
                 completion(.failure(.connectivity))
             case let .success(data, response):
-                do {
-                    let items = try FeedItemMapper.map(data, response: response)
-                    completion(.success(items))
-                } catch {
-                    completion(.failure(.invalidData))
-                }
+                completion(FeedItemMapper.map(data, response: response))
             }
         }
         // problems of using a shared instance ->
