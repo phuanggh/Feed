@@ -145,15 +145,25 @@ class FeedTests: XCTestCase {
     // there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
     
-    private func expect(_ sut: RemoteFeedLoader, toCompleteWith result: RemoteFeedLoader.Result, with action: () -> (), file: StaticString = #filePath, line: UInt = #line) {
-        var capturedResults = [RemoteFeedLoader.Result]()
-        sut.load {
-            capturedResults.append($0)
+    private func expect(_ sut: RemoteFeedLoader, toCompleteWith expectedResult: RemoteFeedLoader.Result, with action: () -> (), file: StaticString = #filePath, line: UInt = #line) {
+        
+        let expectation = expectation(description: "wait for load completion")
+        
+        sut.load { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.success(receivedItems), .success(expectedItems)):
+                XCTAssertEqual(expectedItems, receivedItems, file: file, line: line)
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(expectedError, receivedError, file: file, line: line)
+            default:
+                XCTFail()
+            }
+            expectation.fulfill()
         }
         
         action()
         
-        XCTAssertEqual(capturedResults, [result], file: file, line: line)
+        wait(for: [expectation], timeout: 1.0)
     }
     
     private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
