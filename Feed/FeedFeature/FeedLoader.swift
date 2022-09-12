@@ -7,8 +7,19 @@
 
 import Foundation
 
-typealias LoadFeedResult = Result<FeedItem, Error>
+//typealias LoadFeedResult = Result<FeedItem, Error>
+
+// use XCAssertEqual force this enum to conform to Equatable
+public enum LoadFeedResult<Error: Swift.Error> {
+    case success([FeedItem])
+    case failure(Error)
+}
+
+extension LoadFeedResult: Equatable where Error: Equatable {
+    
+}
 
 protocol FeedLoader {
-    func load(completion: @escaping (LoadFeedResult) -> ())
+    associatedtype Error: Swift.Error
+    func load(completion: @escaping (LoadFeedResult<Error>) -> ())
 }
