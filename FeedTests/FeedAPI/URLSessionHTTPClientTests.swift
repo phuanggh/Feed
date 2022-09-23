@@ -32,7 +32,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         let error = NSError(domain: "any error", code: 1)
         
         let sut = URLSessionHTTPClient()
-        URLProtocolStub.stub(url: url, data: nil, response: nil, error: error)
+        URLProtocolStub.stub(data: nil, response: nil, error: error)
         
         let exp = expectation(description: "wait for completion")
         sut.get(from: url) { result in
@@ -52,7 +52,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     // MARK: - Helpers
     private class URLProtocolStub: URLProtocol {
-        private static var stubs = [URL: Stub]()
+        private static var stub: Stub?
         
         struct Stub {
             let data: Data?
@@ -60,8 +60,8 @@ class URLSessionHTTPClientTests: XCTestCase {
             let error: Error?
         }
         
-        static func stub(url: URL, data: Data?, response: URLResponse?, error: Error?) {
-            stubs[url] = Stub(data: data, response: response, error: error)
+        static func stub(data: Data?, response: URLResponse?, error: Error?) {
+            stub = Stub(data: data, response: response, error: error)
         }
         
         static func startInterceptionRequest() {
@@ -70,13 +70,12 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         static func stopInterceptionRequest() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
-            stubs = [:]
+            stub = nil
         }
         
         override class func canInit(with request: URLRequest) -> Bool {
             // if we return true, it means we can handle this request, and now it's our responsibility to complete this request with either success or failure
-            guard let url = request.url else { return false }
-            return URLProtocolStub.stubs[url] != nil
+            true
         }
         
         override class func canonicalRequest(for request: URLRequest) -> URLRequest {
@@ -84,7 +83,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
         
         override func startLoading() {
-            guard let url = request.url, let stub = URLProtocolStub.stubs[url] else {
+            guard let stub = URLProtocolStub.stub else {
                 return
             }
             
