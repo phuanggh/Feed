@@ -25,6 +25,23 @@ class URLSessionHTTPClient {
 }
 
 class URLSessionHTTPClientTests: XCTestCase {
+    func test_getFromURL_performGETRequestWithURL() {
+        URLProtocolStub.startInterceptionRequest()
+        
+        let url = URL(string: "http://another-url.com")!
+        let exp = expectation(description: "wait for request")
+        URLProtocolStub.obserRequest { request in
+            XCTAssertEqual(request.url, url)
+            XCTAssertEqual(request.httpMethod, "GET")
+            exp.fulfill()
+        }
+        
+        URLSessionHTTPClient().get(from: url) { _ in }
+        
+        wait(for: [exp], timeout: 1.0)
+        
+        URLProtocolStub.stopInterceptionRequest()
+    }
     func test_getFromURL_failOnRequestError() {
         URLProtocolStub.startInterceptionRequest()
         let url = URL(string: "http://another-url.com")!
@@ -53,7 +70,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     // MARK: - Helpers
     private class URLProtocolStub: URLProtocol {
         private static var stub: Stub?
-        
+        private static var requestObserver: ((URLRequest) -> ())?
         struct Stub {
             let data: Data?
             let response: URLResponse?
@@ -64,6 +81,10 @@ class URLSessionHTTPClientTests: XCTestCase {
             stub = Stub(data: data, response: response, error: error)
         }
         
+        static func obserRequest(observer: @escaping (URLRequest) -> ()) {
+            requestObserver = observer
+        }
+        
         static func startInterceptionRequest() {
             URLProtocol.registerClass(URLProtocolStub.self)
         }
@@ -71,11 +92,13 @@ class URLSessionHTTPClientTests: XCTestCase {
         static func stopInterceptionRequest() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
             stub = nil
+            requestObserver = nil
         }
         
         override class func canInit(with request: URLRequest) -> Bool {
             // if we return true, it means we can handle this request, and now it's our responsibility to complete this request with either success or failure
-            true
+            requestObserver?(request)
+            return true
         }
         
         override class func canonicalRequest(for request: URLRequest) -> URLRequest {
