@@ -8,7 +8,7 @@
 import Foundation
 import XCTest
 
-extension XCTest {
+extension XCTestCase {
     func trackForMemoryLeak(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
         // run the assertions after all the tests are passed
         addTeardownBlock { [weak instance] in
