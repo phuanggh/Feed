@@ -134,13 +134,6 @@ class FeedTests: XCTestCase {
         trackForMemoryLeak(sut, file: file, line: line)
         return (sut, client)
     }
-    
-    private func trackForMemoryLeak(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
-        // run the assertions after all the tests are passed
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
-        }
-    }
 
     // there is nothing wrong to subclass, but we can use composition. composition over inheritance (OOP)
     // to use composition, we can start by injection. injection upon the creation of RemoteFeedLoader
