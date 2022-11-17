@@ -16,6 +16,7 @@ final class FeedAPIEndToEndTests: XCTestCase {
         switch getFeedResult() {
         case let .success(items):
             XCTAssertEqual(items.count, 8, "Expected 8 items in the test account feed")
+            
             /// It's hard to debug if more than 1 fail
 //            items.enumerated().forEach { (index, item) in
 //                XCTAssertEqual(item, expectedItem(at: index))
