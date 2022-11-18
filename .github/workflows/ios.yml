@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
       
       - name: Set Xcode
-        run: sudo xcode-selecy -switch /Application/Xcode_14.0.1.app
+        run: sudo xcode-select -switch /Application/Xcode_14.0.1.app
         
       - name: Build and test
         run: xcodebuild clean build test -project Feed.xcodeproj -scheme "CI" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
