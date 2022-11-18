@@ -12,7 +12,6 @@ final class FeedAPIEndToEndTests: XCTestCase {
 
     func test_endToEdnTestServerGETFeedResult_matchesFixedTestAccountDate() {
         
-        
         switch getFeedResult() {
         case let .success(items):
             XCTAssertEqual(items.count, 8, "Expected 8 items in the test account feed")
