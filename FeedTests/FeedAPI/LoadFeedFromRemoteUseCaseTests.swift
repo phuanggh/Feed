@@ -9,7 +9,7 @@ import XCTest
 import Feed
 // @testable vs import
 
-class FeedTests: XCTestCase {
+class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doseNotRequestDataFromURL() {
         let client = HTTPClientSpy()
