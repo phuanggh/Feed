@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A24525829460FBD00A20682 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24525729460FBD00A20682 /* CacheFeedUseCaseTests.swift */; };
 		7A26C8FB292237BB004BD641 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A26C8FA292237BB004BD641 /* URLSessionHTTPClient.swift */; };
 		7A32B1F128A62A73005B9A78 /* Feed.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7A32B1F028A62A73005B9A78 /* Feed.docc */; };
 		7A32B1F728A62A73005B9A78 /* Feed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A32B1EC28A62A73005B9A78 /* Feed.framework */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A24525729460FBD00A20682 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		7A26C8FA292237BB004BD641 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		7A32B1EC28A62A73005B9A78 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A32B1EF28A62A73005B9A78 /* Feed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Feed.h; sourceTree = "<group>"; };
@@ -86,6 +88,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7A24525629460F6A00A20682 /* FeedCache */ = {
+			isa = PBXGroup;
+			children = (
+				7A24525729460FBD00A20682 /* CacheFeedUseCaseTests.swift */,
+			);
+			path = FeedCache;
+			sourceTree = "<group>";
+		};
 		7A32B1E228A62A73005B9A78 = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +130,7 @@
 		7A32B1FA28A62A73005B9A78 /* FeedTests */ = {
 			isa = PBXGroup;
 			children = (
+				7A24525629460F6A00A20682 /* FeedCache */,
 				7A93241F28CC32350097F6C5 /* FeedAPI */,
 			);
 			path = FeedTests;
@@ -325,6 +336,7 @@
 			files = (
 				7A9D5C6B29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift in Sources */,
 				7A32B1FC28A62A73005B9A78 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
+				7A24525829460FBD00A20682 /* CacheFeedUseCaseTests.swift in Sources */,
 				7A835C5D28D030240027A54D /* URLSessionHTTPClientTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,7 +585,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZTVRXHH7W8;
+				DEVELOPMENT_TEAM = B8PRWQ47YB;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;
@@ -590,7 +602,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = ZTVRXHH7W8;
+				DEVELOPMENT_TEAM = B8PRWQ47YB;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = 1.0;

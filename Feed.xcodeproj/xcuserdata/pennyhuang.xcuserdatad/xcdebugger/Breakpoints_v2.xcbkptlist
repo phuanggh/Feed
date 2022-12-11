@@ -18,6 +18,38 @@
             endingLineNumber = "21"
             landmarkName = "get(from:completion:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2BA3544B-06DB-4743-9510-D56FF4375DA4 - 90ef0b983757280"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Feed.URLSessionHTTPClient.get(from: Foundation.URL, completion: (Feed.HTTPClientResult) -&gt; ()) -&gt; ()"
+                  moduleName = "Feed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pennyhuang/Desktop/App%20Development/EssentialDeveloper/Feed/Feed/FeedAPI/URLSessionHTTPClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "221">
+               </Location>
+               <Location
+                  uuid = "2BA3544B-06DB-4743-9510-D56FF4375DA4 - 90ef0b983757280"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Feed.URLSessionHTTPClient.get(from: Foundation.URL, completion: (Feed.HTTPClientResult) -&gt; ()) -&gt; ()"
+                  moduleName = "Feed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pennyhuang/Desktop/App%20Development/EssentialDeveloper/Feed/Feed/FeedAPI/URLSessionHTTPClient.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "353">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -80,6 +112,36 @@
                   startingLineNumber = "34"
                   endingLineNumber = "34"
                   offsetFromSymbolStart = "322">
+               </Location>
+               <Location
+                  uuid = "F85A3547-9E54-463A-A52F-23BEAE48AF11 - c810a01f70cb119d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Feed.FeedItemMapper.map(_: Foundation.Data, response: __C.NSHTTPURLResponse) -&gt; Feed.LoadFeedResult"
+                  moduleName = "Feed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pennyhuang/Desktop/App%20Development/EssentialDeveloper/Feed/Feed/FeedAPI/FeedItemMapper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "118">
+               </Location>
+               <Location
+                  uuid = "F85A3547-9E54-463A-A52F-23BEAE48AF11 - c810a01f70cb119d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Feed.FeedItemMapper.map(_: Foundation.Data, response: __C.NSHTTPURLResponse) -&gt; Feed.LoadFeedResult"
+                  moduleName = "Feed"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/pennyhuang/Desktop/App%20Development/EssentialDeveloper/Feed/Feed/FeedAPI/FeedItemMapper.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "340">
                </Location>
             </Locations>
          </BreakpointContent>
