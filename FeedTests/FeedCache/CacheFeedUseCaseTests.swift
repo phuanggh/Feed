@@ -18,7 +18,7 @@ class FeedStore {
 }
 
 class CacheFeedUseCaseTests: XCTestCase {
-    func test() {
+    func test_init_doesNotDeleteCacheUponCreation() {
         let store = FeedStore()
         let _ = LocalFeedLoader(store: store)
         XCTAssertEqual(store.deleteCachedFeedCallCount, 0)
