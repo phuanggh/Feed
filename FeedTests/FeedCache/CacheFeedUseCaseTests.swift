@@ -31,45 +31,15 @@ class LocalFeedLoader {
     }
 }
 
-class FeedStore {
+protocol FeedStore {
     typealias DeletionCompletion = (NSError?) -> ()
     typealias InsertionCompletion = (NSError?) -> ()
     
-    enum ReceivedMessages:Equatable {
-        case deleteCachedFeed
-        case insert([FeedItem], Date)
-    }
-    
-    private(set) var receivedMessages = [ReceivedMessages]()
-    private var deletionCompletion = [DeletionCompletion]()
-    private var insertionCompletion = [InsertionCompletion]()
-    
-    func deleteCacheFeed(completion: @escaping DeletionCompletion) {
-        deletionCompletion.append(completion)
-        receivedMessages.append(.deleteCachedFeed)
-    }
-    
-    func completeDeletion(with error: NSError, at index: Int = 0) {
-        deletionCompletion[index](error)
-    }
-    
-    func completeDeletionSuccessfully(at index: Int = 0) {
-        deletionCompletion[index](nil)
-    }
-    
-    func insert(_ items: [FeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
-        insertionCompletion.append(completion)
-        receivedMessages.append(.insert(items, timestamp))
-    }
-    
-    func completeInsertion(with error: NSError, at index: Int = 0) {
-        insertionCompletion[index](error)
-    }
-    
-    func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionCompletion[index](nil)
-    }
+    func deleteCacheFeed(completion: @escaping DeletionCompletion)
+    func insert(_ items: [FeedItem], timestamp: Date, completion: @escaping InsertionCompletion)
 }
+
+
 
 class CacheFeedUseCaseTests: XCTestCase {
     func test_init_doesMessageStoreUponCreation() {
@@ -131,8 +101,8 @@ class CacheFeedUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStore) {
-        let store = FeedStore()
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
+        let store = FeedStoreSpy()
         let sut = LocalFeedLoader(store: store, currentDate: currentDate)
         trackForMemoryLeak(store, file: file, line:line)
         trackForMemoryLeak(sut, file: file, line:line)
@@ -151,6 +121,47 @@ class CacheFeedUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
+    
+    private class FeedStoreSpy: FeedStore {
+        typealias DeletionCompletion = (NSError?) -> ()
+        typealias InsertionCompletion = (NSError?) -> ()
+        
+        enum ReceivedMessages:Equatable {
+            case deleteCachedFeed
+            case insert([FeedItem], Date)
+        }
+        
+        private(set) var receivedMessages = [ReceivedMessages]()
+        private var deletionCompletion = [DeletionCompletion]()
+        private var insertionCompletion = [InsertionCompletion]()
+        
+        func deleteCacheFeed(completion: @escaping DeletionCompletion) {
+            deletionCompletion.append(completion)
+            receivedMessages.append(.deleteCachedFeed)
+        }
+        
+        func completeDeletion(with error: NSError, at index: Int = 0) {
+            deletionCompletion[index](error)
+        }
+        
+        func completeDeletionSuccessfully(at index: Int = 0) {
+            deletionCompletion[index](nil)
+        }
+        
+        func insert(_ items: [FeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+            insertionCompletion.append(completion)
+            receivedMessages.append(.insert(items, timestamp))
+        }
+        
+        func completeInsertion(with error: NSError, at index: Int = 0) {
+            insertionCompletion[index](error)
+        }
+        
+        func completeInsertionSuccessfully(at index: Int = 0) {
+            insertionCompletion[index](nil)
+        }
+    }
+    
     private func uniqueItem() -> FeedItem {
         FeedItem(id: UUID(), description: "any", location: "any", imageURL: anyURL())
     }
