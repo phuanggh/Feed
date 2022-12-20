@@ -11,7 +11,7 @@ import Foundation
 
 // use XCAssertEqual force this enum to conform to Equatable
 public enum LoadFeedResult {
-    case success([FeedItem])
+    case success([FeedImage])
     case failure(Error)
 }
 
