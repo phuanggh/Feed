@@ -23,6 +23,7 @@
 		7A93241B28CC1FB30097F6C5 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A93241A28CC1FB30097F6C5 /* HTTPClient.swift */; };
 		7A93241D28CC203E0097F6C5 /* FeedItemMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A93241C28CC203E0097F6C5 /* FeedItemMapper.swift */; };
 		7A9D5C6B29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9D5C6A29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift */; };
+		7AF583312951994A0007EAD7 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF583302951994A0007EAD7 /* LocalFeedLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		7A93241A28CC1FB30097F6C5 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		7A93241C28CC203E0097F6C5 /* FeedItemMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemMapper.swift; sourceTree = "<group>"; };
 		7A9D5C6A29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MomeryLeakTracking.swift"; sourceTree = "<group>"; };
+		7AF583302951994A0007EAD7 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 		7A32B1EE28A62A73005B9A78 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				7AF5832F295199320007EAD7 /* FeedCache */,
 				7A4B6B3D28AE419E003B9D37 /* FeedAPI */,
 				7A32B20A28A633A1005B9A78 /* FeedFeature */,
 				7A32B1EF28A62A73005B9A78 /* Feed.h */,
@@ -180,6 +183,14 @@
 				7A9D5C6A29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		7AF5832F295199320007EAD7 /* FeedCache */ = {
+			isa = PBXGroup;
+			children = (
+				7AF583302951994A0007EAD7 /* LocalFeedLoader.swift */,
+			);
+			path = FeedCache;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,6 +337,7 @@
 				7A32B20928A6309A005B9A78 /* FeedLoader.swift in Sources */,
 				7A93241D28CC203E0097F6C5 /* FeedItemMapper.swift in Sources */,
 				7A32B20728A62DDC005B9A78 /* FeedItem.swift in Sources */,
+				7AF583312951994A0007EAD7 /* LocalFeedLoader.swift in Sources */,
 				7A32B1F128A62A73005B9A78 /* Feed.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
