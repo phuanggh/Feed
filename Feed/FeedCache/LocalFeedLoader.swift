@@ -11,12 +11,14 @@ public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
     
+    public typealias SaveResult = Error?
+    
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
     }
     
-    public func save(_ items: [FeedItem], completion: @escaping (Error?) -> ()) {
+    public func save(_ items: [FeedItem], completion: @escaping (SaveResult) -> ()) {
         // we can see that LocalFeedLoader is invoking more than 1 method in "store" dependency.
         // Aside from checking the methods we invoke,
         // It's important to check those methods are invoked in the right order
@@ -31,7 +33,7 @@ public final class LocalFeedLoader {
         }
     }
     
-    private func cache(_ items: [FeedItem], with completion: @escaping (Error?) -> ()) {
+    private func cache(_ items: [FeedItem], with completion: @escaping (SaveResult) -> ()) {
         store.insert(items, timestamp: currentDate()) { [weak self] error in
             guard self != nil else { return }
             completion(error)
