@@ -7,6 +7,10 @@
 
 import Foundation
 
+// LocalFeedLoader interface
+//      確保delete時FeedStore (與DB溝通)會執行一次delete
+//      確保delete時FeedStore (與DB溝通)得到的error會傳回LocalFeedLoader，並做相對應的處理
+//      確保save時FeedStore (與DB溝通)會執行一次save
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
