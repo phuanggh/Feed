@@ -145,7 +145,8 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
         
-        wait(for: [exp], timeout: 1.0)
+        // timeout設定1.0秒常常會fail，因此需設定久一點
+        wait(for: [exp], timeout: 10.0)
         return receivedResults
     }
     

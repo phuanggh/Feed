@@ -32,7 +32,7 @@ public final class RemoteFeedLoader: FeedLoader {
             case .failure:
                 completion(.failure(Error.connectivity))
             case let .success(data, response):
-                completion(FeedItemMapper.map(data, response: response))
+                completion(RemoteFeedLoader.map(data, from: response))
             }
         }
         // problems of using a shared instance ->
@@ -43,5 +43,20 @@ public final class RemoteFeedLoader: FeedLoader {
         
         // is it the responsibility of this FeedLoader to know which URL it is getting data from, or it is given this URL?
         // -> we don't know, and we don't care about it. let's why it can be injected
+    }
+    
+    private static func map(_ data: Data, from response: HTTPURLResponse) -> Result {
+        do {
+            let items = try FeedItemMapper.map(data, response: response)
+            return .success(items.toModels())
+        } catch {
+            return .failure(error)
+        }
+    }
+}
+
+private extension Array where Element == RemoteFeedItem {
+    func toModels() -> [FeedItem] {
+        map { FeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.image) }
     }
 }
