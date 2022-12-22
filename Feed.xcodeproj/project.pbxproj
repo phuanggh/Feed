@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A01D586295435D700073409 /* LoadFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A01D585295435D700073409 /* LoadFeedFromCacheUseCaseTests.swift */; };
+		7A01D5882954373900073409 /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A01D5872954373900073409 /* FeedStoreSpy.swift */; };
 		7A24525829460FBD00A20682 /* CacheFeedUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A24525729460FBD00A20682 /* CacheFeedUseCaseTests.swift */; };
 		7A26C8FB292237BB004BD641 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A26C8FA292237BB004BD641 /* URLSessionHTTPClient.swift */; };
 		7A32B1F128A62A73005B9A78 /* Feed.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7A32B1F028A62A73005B9A78 /* Feed.docc */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		7A01D585295435D700073409 /* LoadFeedFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
+		7A01D5872954373900073409 /* FeedStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpy.swift; sourceTree = "<group>"; };
 		7A24525729460FBD00A20682 /* CacheFeedUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheFeedUseCaseTests.swift; sourceTree = "<group>"; };
 		7A26C8FA292237BB004BD641 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		7A32B1EC28A62A73005B9A78 /* Feed.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Feed.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				7A9D5C6A29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift */,
+				7A01D5872954373900073409 /* FeedStoreSpy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 			files = (
 				7A9D5C6B29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift in Sources */,
 				7A32B1FC28A62A73005B9A78 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
+				7A01D5882954373900073409 /* FeedStoreSpy.swift in Sources */,
 				7A24525829460FBD00A20682 /* CacheFeedUseCaseTests.swift in Sources */,
 				7A01D586295435D700073409 /* LoadFeedFromCacheUseCaseTests.swift in Sources */,
 				7A835C5D28D030240027A54D /* URLSessionHTTPClientTests.swift in Sources */,
