@@ -1,0 +1,25 @@
+//
+//  ValidateFeedCacheUseCaseTests.swift
+//  FeedTests
+//
+//  Created by Penny Huang on 2022/12/28.
+//
+
+import XCTest
+import Feed
+
+class ValidateFeedCacheUseCaseTests: XCTestCase {
+    func test_init_doesMessageStoreUponCreation() {
+        let (_, store) = makeSUT()
+        XCTAssertEqual(store.receivedMessages, [])
+    }
+    
+    // MARK: - Helpers
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #file, line: UInt = #line) -> (sut: LocalFeedLoader, store: FeedStoreSpy) {
+        let store = FeedStoreSpy()
+        let sut = LocalFeedLoader(store: store, currentDate: currentDate)
+        trackForMemoryLeak(store, file: file, line:line)
+        trackForMemoryLeak(sut, file: file, line:line)
+        return (sut, store)
+    }
+}
