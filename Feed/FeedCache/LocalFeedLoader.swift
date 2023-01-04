@@ -7,19 +7,6 @@
 
 import Foundation
 
-private final class FeedCachePolicy {
-    private init() {}
-    
-    private static let calendar = Calendar(identifier: .gregorian)
-    
-    private static var maxCacheAgeInDays: Int { 7 }
-    
-    static func validate(_ timestamp: Date, against date: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else { return false}
-        return date < maxCacheAge
-    }
-}
-
 // LocalFeedLoader interface
 //      確保delete時FeedStore (與DB溝通)會執行一次delete
 //      確保delete時FeedStore (與DB溝通)得到的error會傳回LocalFeedLoader，並做相對應的處理
