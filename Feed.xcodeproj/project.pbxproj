@@ -33,6 +33,7 @@
 		7AF2EEE2295C4C74001ACCED /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF2EEE1295C4C74001ACCED /* SharedTestHelpers.swift */; };
 		7AF583312951994A0007EAD7 /* LocalFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF583302951994A0007EAD7 /* LocalFeedLoader.swift */; };
 		7AF58333295199AF0007EAD7 /* FeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF58332295199AF0007EAD7 /* FeedStore.swift */; };
+		7AF8DA922967027700CF422D /* CodableFeedStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AF8DA912967027700CF422D /* CodableFeedStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		7AF2EEE1295C4C74001ACCED /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		7AF583302951994A0007EAD7 /* LocalFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalFeedLoader.swift; sourceTree = "<group>"; };
 		7AF58332295199AF0007EAD7 /* FeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStore.swift; sourceTree = "<group>"; };
+		7AF8DA912967027700CF422D /* CodableFeedStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				7A24525729460FBD00A20682 /* CacheFeedUseCaseTests.swift */,
 				7A01D585295435D700073409 /* LoadFeedFromCacheUseCaseTests.swift */,
 				7A97FFAF295C440600E9A34E /* ValidateFeedCacheUseCaseTests.swift */,
+				7AF8DA912967027700CF422D /* CodableFeedStoreTests.swift */,
 			);
 			path = FeedCache;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AF8DA922967027700CF422D /* CodableFeedStoreTests.swift in Sources */,
 				7A97FFB0295C440600E9A34E /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				7A9D5C6B29115C2F00B5E7F4 /* XCTestCase+MomeryLeakTracking.swift in Sources */,
 				7A32B1FC28A62A73005B9A78 /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
